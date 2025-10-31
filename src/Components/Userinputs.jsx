@@ -11,34 +11,16 @@ import { MdEmail } from 'react-icons/md';
 
 const steps = ['Basic Information', 'Contact Details', 'Educational Details','Work Experience','Skill &Certification','Review & Submit'];
 
-function Userinputs() 
+function Userinputs({resumeDetails,setResumeDetails}) 
  {
   const skillSuggestionArray =['NODE JS','MONGODB','EXPRESS JS','REACT','ANGULAR','LEADERSHIP','COMMUNICATION','COACHING','POWERBI','EXCEL']
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
-// create state for storing resume details
- const [resumeDetails,setResumeDetails]=React.useState
-( {
-  username:"",
-  Jobtitle:"",
-  Location:"",
-  email:"",
-  mobile:"",
-  Github:"",
-  LinkedIN:"",
-  portfolio:"",
-  course:"",
-  college:"",
-  university:"",
-  passoutyear:"",
-  JobType:"",
-  Company:"",
-  Clocation:"",
-  duration:"",
-  userSkills:[],
-  Summary :"",
- })
+//resume details -get from props
  
+ //reference  to skill input tag
+ const skillRef =React.useRef()
+
  console.log(resumeDetails);
  
 
@@ -88,6 +70,27 @@ function Userinputs()
   };
 
 //   Adding new function and userinput details
+
+const addSkill =(skill)=>{
+  if(resumeDetails.userSkills.includes(skill)){
+    alert ("The given Skill is already added. Please add another !")
+  }
+  else{
+    setResumeDetails({...resumeDetails,userSkills:[...resumeDetails.userSkills,skill]})
+    //to clear add skill text box
+skillRef.current.value =""  }
+}
+
+// removing  the skill
+ const removeSkill =(skill)=>{
+  setResumeDetails({ ...resumeDetails,userSkills:resumeDetails.userSkills.filter(item=>item!=skill) })
+ }
+
+  
+
+
+
+
 const renderSteps = (stepCount)=>{
     switch(stepCount){
         case 0: return (
@@ -153,25 +156,31 @@ const renderSteps = (stepCount)=>{
                 </h3>
                 
                 <div className="d-flex align-items-center justify-content-between p-3 w-100">
-                  <input  placeholder="Add Skills"type="text" className="form" />
-                <button variant="text">ADD</button>
+                  <input ref={skillRef}  placeholder="Add Skills"type="text" className="form-control" />
+                <button onClick={()=>addSkill(skillRef.current.value)} variant="text" className='ms-4'>ADD</button>
                   
                 </div>
                 <h5>Suggestions</h5>
                 <div className="d-flex flex-wrap justify-content-between my-3">
                   {
                     skillSuggestionArray.map((item,index)=>(
-                  <Button key={index} variant='outlined' className='m-1'>{item}</Button>
+                  <Button onClick={()=>addSkill(item)} key={index} variant='outlined' className='m-1'>{item}</Button>
     ))
   }
                 </div>
-                <h5>Added Skills</h5>
-                 <div className="d-flex -wrap justify-content-between my-3">
-                 
-                  <Button  variant='contained' className='m-1'>NODE JS <FaXmark className='ms-2 cursor-pointer'/>
-                  </Button>
 
-                </div>
+                <h5>Added Skills:</h5>
+                 <div className="d-flex flex-wrap justify-content-between my-3">
+                 {
+                  resumeDetails.userSkills?.length>0?
+                  resumeDetails.userSkills?.map((skill,index)=>
+                  (
+                  <Button key={index}  variant='contained' className='m-1'> {skill} <FaXmark onClick={()=>removeSkill(skill)} className='ms-2 cursor-pointer'/> </Button>
+                  ))
+                  :
+                <p className='fw-bolder'> No skills are added yet.....</p>
+                 }
+                  </div>
             </div>
         )
         case 5: return (
