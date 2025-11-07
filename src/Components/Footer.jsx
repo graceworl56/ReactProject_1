@@ -1,109 +1,26 @@
+import React from 'react'
+import { MdAttachEmail } from "react-icons/md";
+import { FaPhoneAlt } from "react-icons/fa";
+import { IoLogoWhatsapp } from "react-icons/io";
+import { FaFacebook } from "react-icons/fa";
+import { RiInstagramFill } from "react-icons/ri";
 
-import React from 'react';
-import { FaFacebook, FaInstagram, FaPhoneAlt, FaWhatsapp } from 'react-icons/fa';
-import { MdAttachEmail } from 'react-icons/md';
-
-const Footer = () => {
-  const footerStyle = {
-    backgroundColor: 'purple',
-    color: '#ecf0f1',
-    padding: '40px 20px',
-    textAlign: 'center',
-    fontFamily: 'Arial, sans-serif',
-    borderTop: '3px solid purple'
-  };
-
-  const sectionStyle = {
-    marginBottom: '30px'
-  };
-
-  const headingStyle = {
-    fontSize: '19px',
-    fontWeight: 'bold',
-    marginBottom: '15px',
-    color: 'white',
-    textTransform: 'uppercase',
-    letterSpacing: '1px'
-  };
-
-  const contactInfoStyle = {
-    fontSize: '18px',
-    lineHeight: '1.6',
-    marginBottom: '8px'
-  };
-
-  const emailStyle = {
-    color: 'white',
-    textDecoration: 'none',
-    transition: 'color 0.3s ease'
-  };
-
-  const phoneStyle = {
-    color: '#ecf0f1',
-    textDecoration: 'none'
-  };
-
-  const builtWithStyle = {
-    fontSize: '15px',
-    color: 'white',
-    marginTop: '20px',
-    paddingTop: '20px',
-    borderTop: '1px solid purple'
-  };
-
-  const reactStyle = {
-    color: 'white',
-    fontWeight: 'bold'
-  };
-
-  const handleEmailHover = (e) => {
-    e.target.style.color = 'white';
-  };
-
-  const handleEmailLeave = (e) => {
-    e.target.style.color = 'white';
-  };
-
+function Footer() {
   return (
-    <footer style={footerStyle}>
-      <div style={sectionStyle}>
-        <h3 style={headingStyle}>Contact Us</h3>
-        <p style={contactInfoStyle}>
-          <a 
-            href="mailto:resumebuilder@gmail.com" 
-            style={emailStyle}
-            onMouseEnter={handleEmailHover}
-            onMouseLeave={handleEmailLeave}
-          >
-            <MdAttachEmail/>
-            resumebuilder@gmail.com
-          </a>
-        </p>
-        <p style={contactInfoStyle}>
-          <a href="tel:9097654331" style={phoneStyle}>
-           <FaPhoneAlt/> 9094568527
-          </a>
-        </p>
-      </div>
-
-      <div style={sectionStyle}>
-        <h3 style={headingStyle}>Connect With Us</h3>
-        
-         
-        <div style={{ color: 'white', fontSize: '20px' }}>
-          <FaWhatsapp className='me-3'/>
-          <FaFacebook className='me-3'/>
-          <FaInstagram className='me-3'/>
+    <div style={{height:'300px', backgroundColor:'purple'}} className='d-flex justify-content-center align-items-center'>
+      <div className='text-center text-light'>
+        <h2 className='fw-bold'>Contact Us</h2>
+        <h5><MdAttachEmail className='mx-2' />resumebuilder@gmail.com</h5>
+        <h5><FaPhoneAlt className='mx-2'/>9987365722</h5>
+        <h4>Connect with us</h4>
+        <div className='d-flex justify-content-center align-items-center my-3'>
+          <IoLogoWhatsapp  className='mx-2 fs-4'/>
+          <FaFacebook className='mx-2 fs-4'/>
+          <RiInstagramFill className='mx-2 fs-4'/>
         </div>
       </div>
+    </div>
+  )
+}
 
-      <div style={builtWithStyle}>
-         Designed & built with ❤️ using React 
-      </div>
-    </footer>
-  );
-};
-
-export default Footer;
-
-
+export default Footer
