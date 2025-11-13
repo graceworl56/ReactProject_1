@@ -1,86 +1,84 @@
+//page for display the finished resume
 import React, { useEffect, useState } from 'react'
-import Preview from "../components/Preview"
-import { resume } from 'react-dom/server'
+import Preview from '../components/Preview'
 import { Link, useParams } from 'react-router-dom'
-import { addHistoryAPI, getResumeAPI } from '../services/allAPI'
-import { FaFileDownload } from "react-icons/fa";
-import { FaHistory } from "react-icons/fa";
-import { FaBackward } from "react-icons/fa";
-import Edit from '../components/Edit'
-import {jsPDF} from "jspdf"
-import html2canvas from 'html2canvas'
-
+import { addHistoryAPI, getResumeAPI } from '../services/allAPI';
+import { MdSimCardDownload } from "react-icons/md";
+import { IoRefreshCircle } from "react-icons/io5";
+import { FaBackward } from "react-icons/fa6";
+import Edit from '../components/Edit';
+import { jsPDF } from "jspdf";
+import html2canvas from 'html2canvas';
 
 function ViewResume() {
-  const { id } = useParams()
+  const {id}=useParams()
   console.log(id);
-  const [resume, setResume] = useState({})
+  const [resume,setResume]=useState({})
+  useEffect(()=>{
+   getResumeDetails()
+  },[])
 
-  useEffect(() => {
-    getResumeDetails()
-  }, [])
-
-  const getResumeDetails = async () => {
-    const result = await getResumeAPI(id)
-    console.log(result);
-    if (result.status == 200) {
+  const getResumeDetails=async()=>{
+     const result=await getResumeAPI(id);
+     console.log(result);
+     if(result.status==200){
       setResume(result.data)
-    }
-
+     }
   }
-  //download
-  const handleDownloadResume = async ()=>{
-    //create pdf document (install and import jsPDF)
-    const doc = new jsPDF();
-    const preview = document.getElementById("preview")
-    //screenshot of preview - html2canvas
-    const canvas = await html2canvas(preview,{scale:2})
-    // console.log(canvas);
-    //convert canvas ti image
-    const resumeImg = canvas.toDataURL('image/png')
-    // console.log(resumeImg);
-     
-    //add screeshot to pdf
-    const pageWidth = doc.internal.pageSize.getWidth()
-    // const pageHeight = doc.internal.pageSize.getHeight()
+ const handleDownloadResume=async ()=>{
+  
+  // create pdf
+  const doc = new jsPDF();
+  const preview=document.getElementById("preview")
+  preview.style.width = "700px"; 
+  // take scrst of preview -hjtml2canvas
+  const canvas=await html2canvas(preview,{scale:2})
+  // console.log(canvas);
+  // convert canvas to image
+  const resumeImg = canvas.toDataURL('image/png')
+  console.log(resumeImg);
+  // add scrst to pdf
+  const pageWidth = doc.internal.pageSize.getWidth()
+  
+  const imgWidth=pageWidth-20
+  const imgHeight = canvas.height*imgWidth/canvas.width
+  doc.addImage(resumeImg,'PNG',0,0,imgWidth,imgHeight)
+  // download pdf
+  doc.save(`${resume.username}-resume.pdf`)
+  //local time data=new date
+  const localTimeData=new Date()
+  const timeStamp=`${localTimeData.toLocaleDateString()},${localTimeData.toLocaleTimeString()}`
+  console.log(timeStamp);
+  
+  try{
+    await addHistoryAPI({timeStamp,resumeImg});
 
-    const imgWidth = pageWidth-20  //these 2 steps is not compulsory
-    const imgHeight = canvas.height*imgWidth/canvas.width
-    doc.addImage(resumeImg,'PNG',0,0,imgWidth,imgHeight)
-    //download pdf
-    doc.save(`${resume.username}-resume.pdf`)
-    //local time data = new Date
-    const localTimeData = new Date()
-    // console.log(localTimeData);
-    const timeStamp = `${localTimeData.toLocaleDateString()},${localTimeData.toLocaleTimeString()}`
-    //console.log(timeStamp);
-    try{
-      await addHistoryAPI({timeStamp,resumeImg})
-    }catch(err){
-      console.log(err);
-      
-    }
+  }catch(err){
+    console.log(err);
     
   }
 
+  }
   return (
-    <div>
-      <div className="container my-5">
+    <>
+    
+    <div className="container my-5">
         <div className="row">
-          <div className="col-md-1"></div>
-          <div className="col-md-9 col-12">
-            <div className="d-flex justify-content-center align-items-center mt-5 ms-5">
-              <button onClick={handleDownloadResume} className="text-success btn fs-4"><FaFileDownload /></button>
-              <Edit resumeDetails={resume} setResumeDetails={setResume} />
-              <Link to={'/history'} className="text-primary btn fs-4"><FaHistory /></Link>
-              <Link to={'/resume'} className="text-danger btn fs-4"><FaBackward /></Link>
+            <div className="col-md-2"></div>
+            <div className="col-md-6">
+                <div className="d-flex justify-content-center align-items center ">
+                  <button  onClick={handleDownloadResume}className="btn fs-4 text-primary"><MdSimCardDownload/></button>
+                  <Edit resumeDetails={resume} setResumeDetails={setResume}/>
+                  <Link to={'/history'} className="btn fs-4 text-primary"><IoRefreshCircle/></Link>
+                  <Link to={'/resume'} className="btn fs-4 text-success"><FaBackward/></Link>
+                </div>
+                <div id='preview'><Preview resumeDetails={resume}/></div>
             </div>
-            <div id='preview'><Preview resumeDetails={resume} /></div>
-          </div>
-          <div className="col-md-2"></div>
+            <div className="col-md-2"></div>
         </div>
-      </div>
     </div>
+     
+    </>
   )
 }
 

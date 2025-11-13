@@ -1,31 +1,29 @@
+//all api calls
+
 import commonAPI from "./commonAPI"
 import ServerURL from "./ServerURL"
 
-//resume add api-called by UserInputs when finish btn clicked
-export const addResumeAPI = async (resume)=>{
-    return await commonAPI(`${ServerURL}/resumes`,"POST",resume)
+//1.resume add api-called by userinput,when finish btn clicked
+export const addResumeAPI=async(resume)=>{
+    return  await commonAPI(`${ServerURL}/resumes`,"POST",resume)
 }
-//get resume api - called from viewResume,when page load()
-export const getResumeAPI = async (id)=>{
-    return await commonAPI(`${ServerURL}/resumes/${id}`,"GET",{})
+//2.get resume api-called from viewresume,when page load(),inside useeffect() hook
+export const getResumeAPI = async(id) => {
+    return  await commonAPI(`${ServerURL}/resumes/${id}`,"GET",{})
 }
-//update resume api
-export const updateResumeAPI = async (id,resume)=>{
-    return await commonAPI(`${ServerURL}/resumes/${id}`,"PUT",resume)
+//3.update resume api
+export const updateResumeAPI = async(id,resume) => {
+    return  await commonAPI(`${ServerURL}/resumes/${id}`,"PUT",resume)
 }
-//add history api
-export const addHistoryAPI = async (history)=>{
-    return await commonAPI(`${ServerURL}/history`,"POST",history)
+//4.add history
+export const addHistoryAPI = async(history) => {
+    return  await commonAPI(`${ServerURL}/history`,"POST",history)
 }
-
-
-//get history api - called for history component, when page load() , insied useeffect hook
-export const getHistoryAPI = async ()=>{
-    return await commonAPI(`${ServerURL}/history/${id}`,"GET",{})
+//5.getHistoryAPI-called from istory componennt,when page load(),inside useeffect hook
+export const getHistoryAPI=async()=>{
+    return await commonAPI(`${ServerURL}/history`,"GET",{})
 }
-
-
-//remove history api
-export const  removeHistoryAPI= async (id)=>{
+//6.remove histroy api
+export const removeHistoryAPI= async(id)=>{
     return await commonAPI(`${ServerURL}/history/${id}`,"DELETE",{})
 }

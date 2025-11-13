@@ -1,14 +1,15 @@
 
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
-import LandingPage from './pages/LandingPage'
-import ResumeGenerator from './pages/ResumeGenerator'
-import UserForm from './pages/UserForm'
-import History from './pages/History'
-import PageNotFound from './pages/PageNotFound'
-import Header from './components/Header'
-import Footer from './components/Footer'
-import ViewResume from './pages/ViewResume'
+import LandingPage from './pages/LandingPage.jsx'
+import ResumeGenerator from './pages/ResumeGenerator.jsx'
+import UserForm from './pages/UserForm.jsx'
+import History from './pages/History.jsx'
+import PageNotFound from './pages/PageNotFound.jsx'
+import Header from './components/Header.jsx'
+import Footer from './components/Footer.jsx'
+import ViewResume from './pages/ViewResume.jsx'
+
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
         {/* dynamic url are prefix with column(:),and dynamic value will be stored in variable after column ex-:id */}
         <Route path='/resume/:id/view' element={<ViewResume/>}/>
         <Route path='/*' element={<PageNotFound/>}/>
+        
       </Routes>
       <Footer/>
     </>
