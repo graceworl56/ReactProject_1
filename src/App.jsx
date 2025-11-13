@@ -6,8 +6,8 @@ import ResumeGenerator from './pages/ResumeGenerator.jsx'
 import UserForm from './pages/UserForm.jsx'
 import History from './pages/History.jsx'
 import PageNotFound from './pages/PageNotFound.jsx'
-import Header from './components/Header.jsx'
-import Footer from './components/Footer.jsx'
+import Header from './Components/Header.jsx'
+import Footer from './Components/Footer.jsx'
 import ViewResume from './pages/ViewResume.jsx'
 
 
